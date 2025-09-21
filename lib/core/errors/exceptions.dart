@@ -31,7 +31,7 @@ class ServerException implements Exception{
         throw ServerException(errorModel: ErrorModel.fromJson(e.response!.data));
         
       case DioExceptionType.unknown:
-        throw ServerException(errorModel: ErrorModel.fromJson(e.response!.data));
+        throw ServerException(errorModel: ErrorModel.fromJson(e.response!.data)); 
         
         case DioExceptionType.badResponse:
         switch(e.response?.statusCode){
