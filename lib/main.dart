@@ -4,11 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:happy_tech_mastering_api_with_flutter/cach/cach_helper.dart';
 import 'package:happy_tech_mastering_api_with_flutter/core/api/dio_consumer.dart';
 import 'package:happy_tech_mastering_api_with_flutter/cubit/user_cubit.dart';
+import 'package:happy_tech_mastering_api_with_flutter/screens/profile_screen.dart';
 import 'package:happy_tech_mastering_api_with_flutter/screens/sign_in_screen.dart';
 
 void main() {
  WidgetsFlutterBinding.ensureInitialized();
- 
+
   CacheHelper.init();
   runApp(
     BlocProvider(

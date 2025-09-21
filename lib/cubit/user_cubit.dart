@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:happy_tech_mastering_api_with_flutter/cach/cach_helper.dart';
 import 'package:happy_tech_mastering_api_with_flutter/core/api/api_consumer.dart';
-import 'package:happy_tech_mastering_api_with_flutter/core/api/dio_consumer.dart';
 import 'package:happy_tech_mastering_api_with_flutter/core/api/end_points.dart';
 import 'package:happy_tech_mastering_api_with_flutter/core/errors/exceptions.dart';
+import 'package:happy_tech_mastering_api_with_flutter/core/functions/upLoad_image_to_api.dart';
 import 'package:happy_tech_mastering_api_with_flutter/cubit/user_state.dart';
 import 'package:happy_tech_mastering_api_with_flutter/models/sign_in_model.dart';
+import 'package:happy_tech_mastering_api_with_flutter/models/sign_up_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
@@ -36,6 +37,7 @@ class UserCubit extends Cubit<UserState> {
   TextEditingController confirmPassword = TextEditingController();
 
  SignInModel? user;
+ 
 
   signInMethod()async{
    try {
@@ -55,5 +57,32 @@ class UserCubit extends Cubit<UserState> {
   emit(SignInFailuer(errorMessage: e.errorModel.errorMessage));
 }
    
+  }
+
+  upLoadProfialPicMethod(XFile image){
+    profilePic=image;
+    emit(UpLoadProfialPic());
+  }
+
+  signUpMethod()async{
+    emit(SignUpLoading());
+  try {
+  final response = await api.post(EndPoints.signUp,
+    isFormData: true,
+    data: {
+    ApiKey.name : signUpName.text,
+     ApiKey.email : signUpEmail.text,
+      ApiKey.phone : signUpPhoneNumber.text,
+       ApiKey.password : signInPassword.text,
+        ApiKey.confirmPassword : confirmPassword.text,
+        ApiKey.location: '{"name":"methalfa","address":"meet halfa","coordinates":[30.1572709,31.224779]}',
+        ApiKey.profilePic:await upLoadImageToApi(profilePic!)
+    });
+    final signUpModel = SignUpModel.fromJson(response);
+
+    emit(SignUpSuccess(message:signUpModel.message));
+} on ServerException catch (e) {
+  emit(SignUpFailuer(errorMessage: e.errorModel.errorMessage));
+}
   }
 }

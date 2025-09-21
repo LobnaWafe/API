@@ -9,3 +9,18 @@ final class SignInFailuer extends UserState {
   SignInFailuer({required this.errorMessage});
   
 }
+
+final class UpLoadProfialPic extends UserState{}
+
+final class SignUpLoading extends UserState {}
+final class SignUpSuccess extends UserState {
+  final String message;
+
+  SignUpSuccess({required this.message});
+  
+}
+final class SignUpFailuer extends UserState {
+    final String errorMessage;
+
+  SignUpFailuer({required this.errorMessage});
+}
